@@ -4,4 +4,5 @@
 
 攻击代码在test目录对应文件下。
 
-挑战的解决方案和思路可以参考我的博客：https://learnblockchain.cn/rule_audit。我也会把思路简要写在src目录对应文件下的README.md里。
+挑战的解决方案和思路可以参考我的博客：https://learnblockchain.cn/rule_audit。
+我也会把思路简要写在src目录对应文件下的README.md里。
