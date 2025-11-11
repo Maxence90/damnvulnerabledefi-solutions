@@ -1,66 +1,7 @@
-## Foundry
+[网站链接](https://www.damnvulnerabledefi.xyz/)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+这个仓库将放置我在该网站完成挑战找到漏洞的智能合约代码。
 
-Foundry consists of:
+攻击代码在test目录对应文件下。
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+挑战的解决方案和思路可以参考我的博客：https://learnblockchain.cn/rule_audit。我也会把思路简要写在src目录对应文件下的README.md里。
