@@ -4,7 +4,10 @@
 
 攻击代码在test目录对应文件下。
 
-挑战的解决方案和思路可以参考我的博客：https://learnblockchain.cn/rule_audit。
+挑战的解决方案和思路可以参考我的博客：
+登链：https://learnblockchain.cn/rule_audit。
+csdn：https://blog.csdn.net/2301_81272096?spm=1000.2115.3001.5343
+
 我也会把思路简要写在src目录对应文件下的README.md里。
 
 ## 免責聲明
