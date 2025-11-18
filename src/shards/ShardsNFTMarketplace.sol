@@ -39,10 +39,10 @@ contract ShardsNFTMarketplace is IShardsNFTMarketplace, IERC721Receiver, ERC1155
 
     constructor(
         DamnValuableNFT _nft,
-        DamnValuableToken _paymentToken,
-        address _feeVaultImplementation,
-        address _oracle,
-        uint256 _initialRate
+        DamnValuableToken _paymentToken, //支付用的代币合约地址（USDC）
+        address _feeVaultImplementation, //手续费金库实现地址
+        address _oracle, //预言机
+        uint256 _initialRate //手续费
     ) ERC1155("") {
         paymentToken = _paymentToken;
         nft = _nft;
@@ -58,6 +58,8 @@ contract ShardsNFTMarketplace is IShardsNFTMarketplace, IERC721Receiver, ERC1155
     /**
      * @notice Called by sellers to open offers of one NFT, specifying number of units (a.k.a. "shards") and the total price.
      *         Sellers cannot withdraw offers. They're open until completely filled.
+     * 由卖家调用，用于为单个 NFT 发起售卖挂单，需指定「碎片数量」（也叫 “shards”）和「总售价」。
+     * 卖家一旦挂单，无法撤销，挂单会一直有效，直到所有碎片被完全买完。
      * @param nftId ID of the NFT to offer
      * @param totalShards how many shards for the NFT
      * @param price total price, expressed in USDC units
@@ -68,12 +70,7 @@ contract ShardsNFTMarketplace is IShardsNFTMarketplace, IERC721Receiver, ERC1155
 
         // create and store new offer
         offers[offerCount] = Offer({
-            nftId: nftId,
-            totalShards: totalShards,
-            stock: totalShards,
-            price: price,
-            seller: msg.sender,
-            isOpen: true
+            nftId: nftId, totalShards: totalShards, stock: totalShards, price: price, seller: msg.sender, isOpen: true
         });
 
         nftToOffers[nftId] = offerCount;
@@ -123,7 +120,8 @@ contract ShardsNFTMarketplace is IShardsNFTMarketplace, IERC721Receiver, ERC1155
         offer.stock -= want;
         purchaseIndex = purchases[offerId].length;
         uint256 _currentRate = rate;
-        purchases[offerId].push(
+        purchases[offerId]
+        .push(
             Purchase({
                 shards: want,
                 rate: _currentRate,
