@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Damn Vulnerable DeFi v4 (https://damnvulnerabledefi.xyz)
-pragma solidity =0.8.25;
+pragma solidity 0.8.25;
 
 import {AccessControlEnumerable} from "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
 import {LibSort} from "solady/utils/LibSort.sol";
@@ -51,7 +51,7 @@ contract TrustfulOracle is AccessControlEnumerable {
         }
         renounceRole(INITIALIZER_ROLE, msg.sender);
     }
-
+    
     function postPrice(string calldata symbol, uint256 newPrice) external onlyRole(TRUSTED_SOURCE_ROLE) {
         _setPrice(msg.sender, symbol, newPrice);
     }
@@ -82,6 +82,7 @@ contract TrustfulOracle is AccessControlEnumerable {
         emit UpdatedPrice(source, symbol, oldPrice, newPrice);
     }
 
+    //@audit-issue 取中间值方式不合理，容易被操控
     function _computeMedianPrice(string memory symbol) private view returns (uint256) {
         uint256[] memory prices = getAllPricesForSymbol(symbol);
         LibSort.insertionSort(prices);
