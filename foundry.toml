@@ -13,5 +13,6 @@ ignored_warnings_from = [
     "lib/openzeppelin-contracts/contracts/proxy/Proxy.sol",
     "src/curvy-puppet/ICryptoSwapPool.sol"
 ]
+auto_detect_solc = true
 bytecode_hash = "none"
 gas_limit = 9999999999999999
