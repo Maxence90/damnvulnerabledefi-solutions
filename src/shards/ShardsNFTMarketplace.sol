@@ -120,8 +120,7 @@ contract ShardsNFTMarketplace is IShardsNFTMarketplace, IERC721Receiver, ERC1155
         offer.stock -= want;
         purchaseIndex = purchases[offerId].length;
         uint256 _currentRate = rate;
-        purchases[offerId]
-        .push(
+        purchases[offerId].push(
             Purchase({
                 shards: want,
                 rate: _currentRate,

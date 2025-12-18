@@ -66,11 +66,10 @@ contract FreeRiderNFTMarketplace is ReentrancyGuard {
             revert CallerNotOwner(tokenId);
         }
 
-       // @audit-info 要么满足单个授权，要么满足所有批量授权
+        // @audit-info 要么满足单个授权，要么满足所有批量授权
         if (_token.getApproved(tokenId) != address(this) && !_token.isApprovedForAll(msg.sender, address(this))) {
             revert InvalidApproval();
         }
-
 
         offers[tokenId] = price;
 
@@ -99,7 +98,7 @@ contract FreeRiderNFTMarketplace is ReentrancyGuard {
         if (msg.value < priceToPay) {
             revert InsufficientPayment();
         }
-        
+
         --offersCount;
 
         // transfer from seller to buyer

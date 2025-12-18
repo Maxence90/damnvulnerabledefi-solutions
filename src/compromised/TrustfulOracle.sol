@@ -51,7 +51,7 @@ contract TrustfulOracle is AccessControlEnumerable {
         }
         renounceRole(INITIALIZER_ROLE, msg.sender);
     }
-    
+
     function postPrice(string calldata symbol, uint256 newPrice) external onlyRole(TRUSTED_SOURCE_ROLE) {
         _setPrice(msg.sender, symbol, newPrice);
     }

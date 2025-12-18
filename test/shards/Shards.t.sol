@@ -113,9 +113,7 @@ contract ShardsChallenge is Test {
     /**
      * CODE YOUR SOLUTION HERE
      */
-    function test_shards() public checkSolvedByPlayer {
-        
-    }
+    function test_shards() public checkSolvedByPlayer {}
 
     /**
      * CHECKS SUCCESS CONDITIONS - DO NOT TOUCH

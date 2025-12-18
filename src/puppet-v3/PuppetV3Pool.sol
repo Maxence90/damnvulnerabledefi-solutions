@@ -62,10 +62,7 @@ contract PuppetV3Pool {
     function _getOracleQuote(uint128 amount) private view returns (uint256) {
         (int24 arithmeticMeanTick,) = OracleLibrary.consult({pool: address(uniswapV3Pool), secondsAgo: TWAP_PERIOD});
         return OracleLibrary.getQuoteAtTick({
-            tick: arithmeticMeanTick,
-            baseAmount: amount,
-            baseToken: address(token),
-            quoteToken: address(weth)
+            tick: arithmeticMeanTick, baseAmount: amount, baseToken: address(token), quoteToken: address(weth)
         });
     }
 
